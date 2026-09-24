@@ -1,0 +1,24 @@
+# Build
+target/
+build/
+out/
+*.class
+*.jar
+*.war
+!**/.mvn/wrapper/maven-wrapper.jar
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets & local
+.env
+*.local.properties
+*.db
+!projects/03-currency-exchange/src/main/resources/*.db
+logs/
