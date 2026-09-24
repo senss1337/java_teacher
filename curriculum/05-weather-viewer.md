@@ -9,7 +9,7 @@
 - добавление локации в свой список, главная страница с карточками погоды, удаление.
 
 Таблицы `Users`, `Locations`, `Sessions`; миграции Flyway/Liquibase; интеграционные тесты сервисов и HTTP-клиента
-с моками; деплой WAR в Tomcat. Готовая вёрстка: [weather-viewer-html-layouts](https://github.com/zhukovsd/weather-viewer-html-layouts).
+с моками; деплой WAR в Tomcat 11. Готовая вёрстка: [weather-viewer-html-layouts](https://github.com/zhukovsd/weather-viewer-html-layouts).
 
 Spring и Hibernate ты освоил в проекте 4 и [мостике М4](04-0-bridge-spring-hibernate.md). Здесь новое:
 сессии и безопасность, внешнее API, миграции и интеграционные тесты.
@@ -232,7 +232,7 @@ assertThat(p.value()).isEqualByComparingTo("65000.12");
 - [Spring Framework Reference: Testing](https://docs.spring.io/spring-framework/reference/testing.html) — разделы Spring TestContext Framework и MockRestServiceServer.
 - [Flyway: Concepts — Migrations](https://documentation.red-gate.com/fd/migrations-271585107.html).
 - PoEAA, гл. 14: Template View; гл. 18: Gateway, Service Stub.
-- UTPP, гл. 5 «Mocks and test fragility», гл. 7–8 про интеграционные тесты (что мокать, а что нет) — **главное чтение проекта**.
+- UTPP, гл. 5 «Mocks and test fragility», гл. 8 «Why integration testing?», гл. 9 «Mocking best practices» (что мокать, а что нет), гл. 10 «Testing the database» — **главное чтение проекта**.
 - SIA, гл. 2 (Thymeleaf, формы, валидация).
 
 ---
@@ -340,7 +340,7 @@ assertThat(p.value()).isEqualByComparingTo("65000.12");
 
 ### Веха 5.6 — Деплой и финал
 
-**Что нужно сделать.** WAR в Tomcat на VPS, Postgres, ключ API — переменная окружения systemd-сервиса.
+**Что нужно сделать.** WAR в Tomcat 11 на VPS, Postgres, ключ API — переменная окружения systemd-сервиса.
 Сверка с [чеклистом из ТЗ](specs/05-weather-viewer-tz.md) (раздел «Чеклист для самопроверки», после работающей версии).
 
 ---

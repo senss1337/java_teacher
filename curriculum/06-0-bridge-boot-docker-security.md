@@ -86,7 +86,8 @@ docker compose down -v      # ...и удалить volumes (данные!)
 В проектах 4–5 ты руками: регистрировал `DispatcherServlet`, настраивал Jackson, `DataSource`, `SessionFactory`,
 менеджер транзакций, собирал WAR и клал в Tomcat. **Spring Boot** делает это сам:
 
-1. **Стартеры** — зависимости-наборы. `spring-boot-starter-web` = Spring MVC + Jackson + встроенный Tomcat + логирование.
+1. **Стартеры** — зависимости-наборы. `spring-boot-starter-webmvc` = Spring MVC + Jackson + встроенный Tomcat + логирование
+   (в Boot 3 и старых статьях он назывался `spring-boot-starter-web`; в Boot 4 это имя помечено устаревшим).
    `spring-boot-starter-data-jpa` = Hibernate + Spring Data + HikariCP.
 2. **Автоконфигурация** — Boot смотрит, что лежит в classpath, и создаёт нужные бины. Видит драйвер Postgres
    и настройки `spring.datasource.*` → создаёт `DataSource`. Видит Hibernate → создаёт `EntityManagerFactory` и транзакции.
@@ -94,6 +95,10 @@ docker compose down -v      # ...и удалить volumes (данные!)
 3. **Встроенный сервер** — приложение собирается в **исполняемый JAR** с Tomcat внутри: `java -jar app.jar`. WAR не нужен.
 4. **Конфигурация** — `application.yml`/`.properties`, профили, переменные окружения переопределяют файл
    (`SPRING_DATASOURCE_PASSWORD` → `spring.datasource.password`).
+
+> ⚠️ Мы используем **Spring Boot 4**. Большинство туториалов написано под Boot 3: концепции те же, но отличаются
+> имена стартеров, пакеты Jackson 3, моки в тестах (`@MockitoBean`). Список отличий — в
+> [«Версии стека»](00-setup.md#что-в-старых-туториалах-выглядит-иначе).
 
 ```java
 @SpringBootApplication                     // = @Configuration + @ComponentScan + @EnableAutoConfiguration
@@ -119,10 +124,14 @@ app:
 **Свои настройки** — через `@ConfigurationProperties` (типобезопасно, с валидацией), а не россыпь `@Value`:
 
 ```java
+@Validated                                         // без неё @Min молча НЕ проверяется!
 @ConfigurationProperties(prefix = "app.posts")
 record PostsProperties(@Min(1) int pageSize) {}
 // + @EnableConfigurationProperties(PostsProperties.class) или @ConfigurationPropertiesScan
+// + зависимость spring-boot-starter-validation (реализация Bean Validation)
 ```
+
+При `page-size: 0` приложение не стартует и пишет понятную ошибку. Лучше упасть при запуске, чем работать с неверным конфигом.
 
 **«Откуда взялся этот бин?»** Запусти с `--debug`: Boot напечатает **condition evaluation report** — какие автоконфигурации
 сработали и почему, какие нет.
@@ -207,7 +216,7 @@ class SecurityConfig {
 
 **Логин через свой REST-эндпоинт** (как требует ТЗ проекта 6) — самое неочевидное место. Ты вызываешь
 `AuthenticationManager.authenticate(...)`, кладёшь результат в `SecurityContext` **и явно сохраняешь** контекст
-через `SecurityContextRepository`: в Security 6 это больше не происходит автоматически. Прочитай
+через `SecurityContextRepository`: начиная с Security 6 (и в нашей 7) это не происходит автоматически. Прочитай
 [Persisting Authentication](https://docs.spring.io/spring-security/reference/servlet/authentication/persistence.html) — там это описано.
 
 **CSRF.** По умолчанию Security требует CSRF-токен для POST/PUT/DELETE. Для SPA на сессиях есть варианты
@@ -257,12 +266,16 @@ class SecurityConfig {
 самодостаточными: `./mvnw verify` на любой машине с Docker.
 
 ```java
+// зависимости (test): spring-boot-testcontainers, org.testcontainers:testcontainers-junit-jupiter,
+// org.testcontainers:testcontainers-postgresql   ← имена модулей Testcontainers 2.x
+import org.testcontainers.postgresql.PostgreSQLContainer;   // новый пакет в 2.x, класс без <?>
+
 @SpringBootTest
 @Testcontainers
 class PostRepositoryTest {
     @Container
-    @ServiceConnection                                   // Boot 3.1+: сам подставит url/user/password
-    static PostgreSQLContainer<?> pg = new PostgreSQLContainer<>("postgres:16");
+    @ServiceConnection                                   // Boot сам подставит url/user/password
+    static PostgreSQLContainer pg = new PostgreSQLContainer("postgres:17");
 
     @Autowired PostRepository repo;
 
@@ -270,7 +283,8 @@ class PostRepositoryTest {
 }
 ```
 
-Для MinIO готового модуля может не быть — используется `GenericContainer` с образом, портом и переменными окружения.
+Для MinIO в Testcontainers есть готовый модуль (`testcontainers-minio`), но ТЗ проекта 6 предлагает написать
+свой `GenericContainer` (образ, порт, переменные окружения, стратегия ожидания готовности). Сделай сам, это полезное упражнение.
 
 ---
 

@@ -322,7 +322,7 @@ HTTP ──> Controller (сервлет)  разобрать запрос, пр�
 - [Use The Index, Luke — «Анатомия индекса»](https://use-the-index-luke.com/ru/sql/anatomy).
 - PoEAA: гл. 9 (Service Layer), гл. 10 (Table Data Gateway), гл. 14 (Front Controller), гл. 15 (Data Transfer Object).
 - EJ 3 и EJ 5 (синглтоны vs DI), EJ 73 (трансляция исключений).
-- [DigitalOcean: How To Install Apache Tomcat 10 on Ubuntu](https://www.digitalocean.com/community/tutorials) (найди по названию актуальную версию) — пример systemd-юнита.
+- [Apache Tomcat 11: Setup](https://tomcat.apache.org/tomcat-11.0-doc/setup.html) — официальная инструкция по установке, включая запуск как службы. Туториалы DigitalOcean «How To Install Apache Tomcat on Ubuntu» тоже хороши (пример systemd-юнита), только бери версию 11.
 
 ---
 
@@ -331,8 +331,8 @@ HTTP ──> Controller (сервлет)  разобрать запрос, пр�
 ### Веха B3.1 — Сервлеты и Tomcat
 
 **Что нужно сделать**
-1. Скачать Tomcat 10.1, запустить локально (`bin/startup.sh`), открыть `http://localhost:8080`.
-2. Maven-проект с `packaging=war` и `jakarta.servlet-api` (`provided`).
+1. Скачать Tomcat 11 (zip/tar.gz с [tomcat.apache.org](https://tomcat.apache.org/download-11.cgi)), запустить локально (`bin/startup.sh`, на Windows `bin\startup.bat`), открыть `http://localhost:8080`.
+2. Maven-проект с `packaging=war` и `jakarta.servlet-api` 6.1 (`provided`). Версии — по таблице [«Версии стека»](00-setup.md#7-версии-стека-проверено-по-maven-central-24092026).
 3. `HelloServlet` из части 1 + сервлет `/time`, отдающий текущее время **в JSON** через Jackson
    (`{"utc": "...", "zone": "..."}`, зона — из параметра `?zone=Europe/Moscow`, по умолчанию UTC; неверная зона → 400 с JSON-ошибкой).
 4. Фильтр кодировки/`Content-Type` и фильтр-замер времени из части 1.

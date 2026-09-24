@@ -119,7 +119,9 @@ Java — открытый проект **OpenJDK**. Из одного и тог�
 отличаются лицензией и сроком поддержки. Бери **Eclipse Temurin 21**: бесплатный, без лицензионных подвохов, стандарт де-факто.
 
 **Почему 21?** Новая Java выходит каждые полгода, но в продакшене используют только **LTS**-версии
-(Long-Term Support: 8, 11, 17, 21, 25), потому что их годами патчат. 21 — актуальная LTS со всеми современными фичами.
+(Long-Term Support: 8, 11, 17, 21, 25), потому что их годами патчат. Самая новая LTS — 25 (сентябрь 2025), но основная
+рабочая версия в индустрии сейчас 21: на неё рассчитаны книги, туториалы и вакансии. Все библиотеки курса с ней работают.
+Если захочешь 25 — ничего в программе не сломается.
 
 > 🎯 **Спросят на собесе:** Что такое LTS и почему в проде Java 17/21, а не 23?
 > **Ответ:** Новая версия выходит каждые 6 месяцев. LTS-версии (8, 11, 17, 21, 25) получают многолетние патчи безопасности,
@@ -145,7 +147,9 @@ SDKMAN сам настроит переменные `JAVA_HOME` и `PATH`. Пе�
 
 - `winget install EclipseAdoptium.Temurin.21.JDK` или MSI-установщик с [adoptium.net](https://adoptium.net/).
   В установщике **отметь** *Set JAVA_HOME variable* и *Add to PATH*.
-- Maven: `winget install Apache.Maven` или скачать архив, распаковать и добавить папку `bin` в `PATH`.
+- Maven: скачать zip-архив с [maven.apache.org/download.cgi](https://maven.apache.org/download.cgi), распаковать
+  (например, в `C:\tools\maven`) и добавить папку `bin` в `PATH`. Можно и без установки: в IntelliJ IDEA Maven встроен,
+  а в проектах мы всё равно пользуемся Maven Wrapper (`mvnw`, см. ниже), который скачивает Maven сам.
 
 ### Проверка — обязательно все четыре команды
 
@@ -254,7 +258,7 @@ my-project/
       <dependency>
         <groupId>org.junit</groupId>
         <artifactId>junit-bom</artifactId>
-        <version>5.11.0</version>             <!-- проверь актуальную на mvnrepository.com -->
+        <version>6.0.3</version>              <!-- JUnit 6; актуальную смотри в разделе «Версии стека» -->
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -310,8 +314,9 @@ validate → compile → test → package → verify → install → deploy
 
 ### Частые ошибки
 
-- JUnit 5 в проекте, а версия `maven-surefire-plugin` старая: тесты **молча не запускаются**, сборка зелёная.
-  Всегда проверяй в выводе строку `Tests run: N`.
+- JUnit 5/6 в проекте, а в `pom.xml` (часто из старого шаблона или статьи) прописана древняя версия `maven-surefire-plugin`
+  (2.12, 2.19): тесты **молча не запускаются**, сборка зелёная. Maven 3.9 по умолчанию берёт свежий surefire 3.x, и всё работает,
+  но ловушку стоит знать. Всегда проверяй в выводе строку `Tests run: N` с N > 0.
 - `target/` в git.
 - Версии зависимостей «на глаз» без BOM, в итоге конфликты.
 - `source`/`target` вместо `release` в настройках компилятора. `release` дополнительно проверяет, что ты не используешь
@@ -426,19 +431,73 @@ validate → compile → test → package → verify → install → deploy
 | Инструмент | Когда | Зачем |
 |------------|-------|-------|
 | Git + корневой `.gitignore` (уже есть в репо) | сразу | `target/`, `.idea/` не коммитим |
-| Apache Tomcat 10.1 | проект 3 | сервер для сервлетов |
+| Apache Tomcat 11 | проект 3 | сервер для сервлетов (не 10.1 — см. «Версии стека») |
 | Docker Desktop / Docker Engine | удобно с проекта 3 (Postgres), обязательно с проекта 6 | базы и сервисы без установки в систему |
 | DBeaver (или DB-клиент в IDEA Ultimate) | проект 3 | смотреть таблицы и планы запросов |
 | Postman / HTTPie / HTTP Client в IDEA | проект 3 | дёргать API руками |
 
 ---
 
-## 7. Чекпоинт шага 0 → веха 0.1: `projects/00-hello/`
+## 7. Версии стека (проверено по Maven Central 24.09.2026)
+
+**Зачем это нужно.** Java-библиотеки выпускаются «семействами», которые должны быть совместимы между собой.
+Самая частая причина непонятных ошибок у новичков — смешанные версии из разных туториалов: пример под Spring 6,
+сервер под Spring 7, зависимость из статьи 2021 года.
+
+**Опорная точка — BOM Spring Boot** (`spring-boot-dependencies`). Команда Spring проверяет, что версии в нём работают вместе.
+Даже в проектах без Boot (3–5) бери версии оттуда.
+
+| Что | Версия | Где нужна | Заметки |
+|-----|--------|-----------|---------|
+| Java | **21** (LTS) | везде | 25 — тоже LTS, тоже подойдёт |
+| Maven | 3.9.x | везде | через Maven Wrapper |
+| JUnit | **6.0.x** (Jupiter) | везде | API тот же, что в JUnit 5: `@Test`, `@ParameterizedTest`… Туториалы по JUnit 5 полностью годятся |
+| AssertJ / Mockito | 3.27.x / 5.23.x | везде | |
+| Jakarta Servlet API | **6.1** | 3–5 | `scope provided` |
+| Tomcat | **11.0.x** | 3–5 | **Не 10.1**: Spring Framework 7 рассчитан на Jakarta EE 11 (Servlet 6.1), а это Tomcat 11 |
+| Jackson | 2.21+ (проект 3) / **3.1** (с Boot 4) | 3–7 | см. ниже про Jackson 3 |
+| HikariCP | 7.0.x | 3–7 | |
+| Spring Framework | **7.0.x** | 4–5 | без Boot |
+| Hibernate ORM | **7.4.x** | 4–7 | |
+| Flyway / Liquibase | 12.x / 5.0.x | 5–7 | |
+| Spring Boot | **4.1.x** | 6–7 | |
+| Spring Security / Session | 7.1.x / 4.1.x | 6–7 | |
+| Testcontainers | **2.0.x** | 6–7 | см. ниже |
+| Kafka (клиенты) / Spring Kafka | 4.2.x / 4.1.x | 7 | Kafka 4 работает только в режиме KRaft, без ZooKeeper |
+| PostgreSQL (образ) / драйвер | любая поддерживаемая, например 17 / 42.7.x | 4–7 | |
+
+**Как проверить актуальную версию самому:** на [central.sonatype.com](https://central.sonatype.com/) найди артефакт
+(например, `spring-boot-dependencies`) и открой вкладку с версиями. Или в IDEA: в `pom.xml` поставь курсор на версию,
+Alt+Enter покажет доступные.
+
+### Что в старых туториалах выглядит иначе
+
+Большинство статей и книг (Spring in Action 6, многие статьи Baeldung) написаны под **Spring Boot 3 / Spring 6 / Hibernate 6**.
+Механика и концепции те же, но детали отличаются. Ловушки:
+
+- **Tomcat 10.1** в статье → у тебя **Tomcat 11**. `javax.servlet` из совсем старых статей → у тебя `jakarta.servlet`.
+- **Jackson 3** (по умолчанию в Boot 4): классы переехали в пакет `tools.jackson.databind` (`ObjectMapper`, `JsonMapper`),
+  Maven-группа `tools.jackson.core`. Аннотации (`@JsonProperty`, `@JsonIgnoreProperties`) остались в
+  `com.fasterxml.jackson.annotation`. В проекте 3 (без Boot) можно спокойно брать Jackson 2 (`com.fasterxml.jackson.core`).
+- **Spring 7 + Hibernate:** классы `LocalSessionFactoryBean` и `HibernateTransactionManager` переехали из
+  `org.springframework.orm.hibernate5` в `org.springframework.orm.jpa.hibernate`. В статьях будет старый пакет.
+- **Hibernate:** для загрузки по id используй стандартный JPA-метод `find(...)`, а не `get(...)`/`load(...)` из старых примеров.
+- **Testcontainers 2:** модули называются `org.testcontainers:testcontainers-postgresql` (было `org.testcontainers:postgresql`),
+  класс — `org.testcontainers.postgresql.PostgreSQLContainer`, **без** дженерика `<?>`. Старый
+  `org.testcontainers.containers.PostgreSQLContainer<?>` помечен `@Deprecated`. Поддержка JUnit 4 убрана.
+- **Тестовые моки в Spring Boot:** `@MockBean` из старых статей заменён на `@MockitoBean` (в Boot 4 `@MockBean` удалён).
+- **Стартеры Boot 4:** `spring-boot-starter-web` переименован в `spring-boot-starter-webmvc` (старое имя помечено устаревшим).
+
+Если пример из статьи не компилируется, первым делом проверь, не из «прошлого поколения» ли он.
+
+---
+
+## 8. Чекпоинт шага 0 → веха 0.1: `projects/00-hello/`
 
 ### Что нужно сделать
 1. Создать Maven-проект `projects/00-hello/`: в IDEA *New Project → Java, Build system: Maven, JDK: 21*.
    Сгенерированный `pom.xml` приведи в порядок по образцу из раздела 4.
-2. Подключить JUnit 5 (через BOM) и AssertJ в scope `test`, указать явную свежую версию `maven-surefire-plugin`.
+2. Подключить JUnit (через BOM `junit-bom`) и AssertJ в scope `test`, указать явную свежую версию `maven-surefire-plugin`.
 3. Добавить Maven Wrapper: `mvn wrapper:wrapper`.
 4. Написать класс `StringStats` в пакете `dev.<ник>.hello`: метод принимает строку и возвращает частоты символов,
    отсортированные по убыванию частоты, при равенстве — по символу.

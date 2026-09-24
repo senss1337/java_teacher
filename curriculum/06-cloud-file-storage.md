@@ -170,7 +170,8 @@ ResponseEntity<StreamingResponseBody> export() {
 
 **Что нужно сделать**
 1. `docker-compose.yml` с Postgres (healthcheck, volume), `.env` + `.env.example`.
-2. Spring Boot 3.x, Java 21, `@ConfigurationProperties`, профили.
+2. Spring Boot 4.x, Java 21, `@ConfigurationProperties` (с `@Validated`), профили. Версии — по таблице
+   [«Версии стека»](00-setup.md#7-версии-стека-проверено-по-maven-central-24092026).
 3. Liquibase-миграция таблицы пользователей.
 
 **С чего начать.** Скопируй compose и каркас из песочницы мостика М6.

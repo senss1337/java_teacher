@@ -198,7 +198,7 @@ public class Book {
 ```java
 try (Session s = sessionFactory.openSession()) {
     Transaction tx = s.beginTransaction();
-    Book b = s.get(Book.class, 1L);        // SELECT; b — managed
+    Book b = s.find(Book.class, 1L);       // SELECT; b — managed (find — стандартный метод JPA)
     b.rename("New title");                 // просто меняем объект
     tx.commit();                           // Hibernate сам сделает UPDATE books SET title=... WHERE id=1
 }
@@ -255,7 +255,9 @@ session.createQuery("select b from Book b join fetch b.author", Book.class)   //
 
 С Spring не нужно открывать сессии и транзакции руками: `@Transactional` на методе сервиса, и прокси откроет транзакцию,
 привяжет сессию к потоку и закоммитит/откатит. DAO получает текущую сессию через `sessionFactory.getCurrentSession()`
-(или `EntityManager`). Для этого нужен бин `HibernateTransactionManager` (или `JpaTransactionManager`)
+(или `EntityManager`). Для этого нужен бин `HibernateTransactionManager` (или `JpaTransactionManager`).
+В Spring 7 классы интеграции с Hibernate лежат в пакете `org.springframework.orm.jpa.hibernate`
+(в старых статьях — `org.springframework.orm.hibernate5`, его больше нет)
 и `@EnableTransactionManagement`.
 
 Антипаттерн **session-per-operation** — новая сессия на каждый вызов DAO: теряются кеш первого уровня, dirty checking и атомарность.
@@ -268,7 +270,7 @@ session.createQuery("select b from Book b join fetch b.author", Book.class)   //
 - [Spring: AOP Proxies — Understanding AOP Proxies](https://docs.spring.io/spring-framework/reference/core/aop/proxying.html) — **обязательно**, там картинка про self-invocation.
 - [Spring Web MVC — DispatcherServlet](https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-servlet.html), [Annotated Controllers](https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller.html).
 - [Spring: Declarative Transaction Management](https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative.html).
-- [Hibernate ORM User Guide](https://docs.jboss.org/hibernate/orm/6.6/userguide/html_single/Hibernate_User_Guide.html): разделы Domain Model (Entity types, Associations), Bootstrap, Persistence Context, Fetching.
+- [Hibernate ORM User Guide](https://hibernate.org/orm/documentation/) (на странице документации выбери версию 7.x → User Guide): разделы Domain Model (Entity types, Associations), Bootstrap, Persistence Context, Fetching.
 - HPJP, часть II «JPA and Hibernate»: главы про маппинг связей (Relationships), Flushing, **Fetching**.
 - Блог Михалчи: [N+1 query problem](https://vladmihalcea.com/n-plus-1-query-problem/), [The best way to map @ManyToOne](https://vladmihalcea.com/manytoone-jpa-hibernate/), [LazyInitializationException](https://vladmihalcea.com/the-best-way-to-handle-the-lazyinitializationexception/).
 - PoEAA, гл. 11 (Unit of Work, Identity Map, Lazy Load) — это ровно то, что делает Hibernate.
@@ -287,7 +289,7 @@ session.createQuery("select b from Book b join fetch b.author", Book.class)   //
 3. **Прокси своими глазами:** аннотация `@Transactional` пока не нужна, сделай свой аспект через Spring AOP
    (`@Aspect`, `@Around`), логирующий время выполнения методов сервиса. Потом вызови метод сервиса из другого метода
    **того же** класса и убедись, что аспект не сработал. Объясни почему.
-4. Маленькое Spring MVC-приложение (без Boot, WAR в Tomcat): `GET /greetings/{name}`, `POST /greetings` (JSON),
+4. Маленькое Spring MVC-приложение (без Boot, WAR в **Tomcat 11** — Spring 7 требует Servlet 6.1): `GET /greetings/{name}`, `POST /greetings` (JSON),
    `@RestControllerAdvice` для ошибки валидации → 400 `{"message": ...}`.
 
 **С чего начать.** С п. 1: заставь `ctx.getBean(...)` вернуть полностью собранный сервис.

@@ -158,7 +158,8 @@ log.error("Unexpected error on {}", req.getRequestURI(), e);   // {} — пле�
 ### Веха 3.1 — Каркас: WAR + Tomcat + фильтр + composition root
 
 **Что нужно сделать**
-1. Maven-проект `projects/03-currency-exchange/`, `packaging=war`, `jakarta.servlet-api` (`provided`), Jackson, SLF4J+Logback, SQLite JDBC, HikariCP.
+1. Maven-проект `projects/03-currency-exchange/`, `packaging=war`, `jakarta.servlet-api` 6.1 (`provided`), Jackson, SLF4J+Logback, SQLite JDBC, HikariCP.
+   Версии — по таблице [«Версии стека»](00-setup.md#7-версии-стека-проверено-по-maven-central-24092026), сервер — Tomcat 11.
 2. Фильтр кодировки и `Content-Type: application/json`.
 3. `ServletContextListener`: создаёт `ObjectMapper` (и пока ничего больше).
 4. Тестовый эндпоинт `/ping` → `{"status":"ok"}`.
@@ -263,7 +264,7 @@ log.error("Unexpected error on {}", req.getRequestURI(), e);   // {} — пле�
 
 ### Веха 3.7 — Деплой
 
-**Что нужно сделать.** VPS, JRE 21 + Tomcat 10.1, WAR задеплоен, API доступно по `http://ip:8080/<контекст>/currencies`.
+**Что нужно сделать.** VPS, JRE 21 + Tomcat 11, WAR задеплоен, API доступно по `http://ip:8080/<контекст>/currencies`.
 Шпаргалка по серверу — [мостик М3, часть 5](03-0-bridge-web-jdbc.md#часть-5-сервер-на-linux-минимум-для-деплоя).
 
 **Как проверить себя**

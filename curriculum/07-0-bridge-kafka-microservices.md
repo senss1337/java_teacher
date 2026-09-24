@@ -211,7 +211,10 @@ ENTRYPOINT ["java", "-jar", "/app.jar"]
 ### Веха B7.1 — Kafka
 
 **Что нужно сделать**
-1. Compose с Kafka (KRaft-режим, без ZooKeeper, образ `apache/kafka` или `bitnami/kafka`) + UI (например, `provectuslabs/kafka-ui`).
+1. Compose с Kafka (официальный образ `apache/kafka`, режим KRaft — в Kafka 4 другого и нет) + веб-интерфейс
+   `ghcr.io/kafbat/kafka-ui` ([kafbat/kafka-ui](https://github.com/kafbat/kafka-ui)).
+   ⚠️ Старые туториалы используют `bitnami/kafka` и `provectuslabs/kafka-ui`: бесплатный каталог Bitnami с 2025 года урезан,
+   а `provectuslabs/kafka-ui` больше не развивается (его продолжение — `kafbat`).
 2. Boot-продюсер: `POST /orders` публикует событие `OrderPlaced` (JSON, ключ = orderId) в топик с 3 партициями.
 3. Boot-консьюмер (отдельное приложение): логирует события. Запусти **два экземпляра** в одной группе — посмотри в UI,
    как поделились партиции. Потом запусти третий экземпляр в **другой** группе — он получает все сообщения.

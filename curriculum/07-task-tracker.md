@@ -133,6 +133,7 @@ backend переименует поле, email-sender сломается, при
 📚 **Читать:**
 - MSP: гл. 1 «Escaping monolithic hell», гл. 2 «Decomposition strategies», гл. 3 «Interprocess communication in a microservice architecture» (**transactional outbox, идемпотентность, request/reply — здесь**), гл. 11 про безопасность (JWT между сервисами). Или онлайн: [microservices.io/patterns](https://microservices.io/patterns/).
 - KDG: гл. 1 «Meet Kafka», гл. 3 «Kafka Producers», гл. 4 «Kafka Consumers» (consumer groups, commit offset'ов), гл. 7 «Reliable Data Delivery», гл. 8 «Exactly-Once Semantics» — по диагонали.
+- DDIA, гл. 4 «Encoding and Evolution» — обратная и прямая совместимость форматов (ровно про контракты сообщений из раздела 2).
 - DDIA, гл. 11 «Stream Processing» (первая половина: брокеры, логи, семантики доставки) и гл. 12 «The Future of Data Systems» (раздел про end-to-end идемпотентность).
 - [Spring for Apache Kafka Reference](https://docs.spring.io/spring-kafka/reference/): разделы Receiving Messages, Error Handling / DLT, Request/Reply (`ReplyingKafkaTemplate`), Serialization.
 - SIA, гл. 9 «Sending messages asynchronously» (раздел про Kafka).

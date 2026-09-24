@@ -129,5 +129,21 @@
 
 ## Стек
 
-Java 21 (Temurin), Maven, IntelliJ IDEA, JUnit 5, AssertJ, Mockito. Каждый проект — отдельный Maven-проект
-в `projects/<NN-name>/`.
+Java 21 (Temurin), Maven, IntelliJ IDEA, JUnit 6 (Jupiter API), AssertJ, Mockito. Каждый проект — отдельный Maven-проект
+в `projects/<NN-name>/`. Точные версии и совместимость (Tomcat 11 ↔ Spring 7 ↔ Servlet 6.1, Spring Boot 4, Hibernate 7,
+Jackson 3, Testcontainers 2) — в `curriculum/00-setup.md`, раздел «Версии стека». Когда даёшь ссылки, примеры
+и имена артефактов, сверяйся с ним: не подсказывай API прошлого поколения (`javax.*`, `orm.hibernate5`, `@MockBean`,
+`spring-boot-starter-web`, Testcontainers 1.x), не пометив, что это старое. Раз в полгода сверяй таблицу с Maven Central
+и обновляй дату проверки.
+
+## Окружение ревью
+
+- В облачном контейнере есть JDK 21 и Maven 3.9, Maven Central доступен: `mvn -q verify` для проектов 0–5 запускай сам.
+- Docker CLI есть, но демон по умолчанию **не запущен** (`/var/run/docker.sock` отсутствует). Для тестов на Testcontainers
+  (мостики М6, М7, проекты 6–7) сначала попробуй поднять его: `dockerd > /tmp/dockerd.log 2>&1 &`, дождись `docker info`.
+  Не получилось — смотри результаты CI (если в репозитории настроен GitHub Actions) или попроси пользователя прислать
+  вывод `./mvnw verify` со своей машины.
+- **Никогда не пиши «тесты зелёные», если они не запускались.** Пиши, что именно запускалось и что пропущено
+  (например, `-DskipITs` или без тестов, которым нужен Docker), и почему.
+- Доступ в интернет ограничен: часть сайтов документации может не открываться. Не выдумывай содержимое страниц,
+  которые не смог прочитать.

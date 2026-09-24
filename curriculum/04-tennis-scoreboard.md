@@ -9,7 +9,8 @@ REST API для ведения счёта теннисного матча:
 - `GET /matches?page=&player_name=` — завершённые матчи с пагинацией и поиском по имени.
 
 Текущие матчи хранятся **в памяти** (в потокобезопасной коллекции), завершённые — в Postgres через **Hibernate**.
-Стек: Spring MVC (без Boot), Hibernate, Postgres, JUnit 5, деплой WAR в Tomcat.
+Стек: Spring MVC 7 (без Boot), Hibernate 7, Postgres, JUnit, деплой WAR в Tomcat 11
+(версии — по таблице [«Версии стека»](00-setup.md#7-версии-стека-проверено-по-maven-central-24092026)).
 Есть [фронтенд](https://github.com/zhukovsd/tennis-scoreboard-frontend): статические файлы кладутся в проект.
 
 Перед проектом **обязательно** пройди [мостик М4](04-0-bridge-spring-hibernate.md): Spring, прокси, Hibernate,
@@ -152,13 +153,13 @@ accounts.computeIfPresent(id, (k, acc) -> {   // ✅ функция выполн
 | `@ManyToOne` LAZY, `JOIN FETCH`, пагинация + count | нет N+1, сортировка |
 | `@Transactional` в сервисе | не в контроллере, не на private |
 | `ConcurrentHashMap` + защита объекта матча | гонки на счёте |
-| JUnit 5 `@Nested`, хелперы | 30+ тестов домена |
+| JUnit `@Nested`, хелперы | 30+ тестов домена |
 
 📚 **Читать:**
 - PoEAA, гл. 9: Domain Model vs Transaction Script; гл. 11 «Object-Relational Behavioral Patterns» (Unit of Work, Identity Map, Lazy Load — это то, что делает Hibernate); гл. 18: Value Object.
 - Фаулер, [Anemic Domain Model](https://martinfowler.com/bliki/AnemicDomainModel.html) (статья, 5 минут).
 - HFDP, гл. 10 «The State Pattern» или [GURU: Состояние](https://refactoring.guru/ru/design-patterns/state).
-- [Hibernate ORM User Guide](https://docs.jboss.org/hibernate/orm/6.6/userguide/html_single/Hibernate_User_Guide.html): разделы Domain Model, Bootstrap, Persistence Context, Fetching, Transactions — по диагонали.
+- [Hibernate ORM User Guide](https://hibernate.org/orm/documentation/) (на странице документации выбери версию 7.x → User Guide): разделы Domain Model, Bootstrap, Persistence Context, Fetching, Transactions — по диагонали.
 - HPJP, часть II «JPA and Hibernate»: главы про маппинг связей (Relationships), Flushing, **Fetching** (N+1, `JOIN FETCH`, пагинация) — Fetching обязательно.
 - Блог Михалчи: [N+1 query problem](https://vladmihalcea.com/n-plus-1-query-problem/), [Best way to map @ManyToOne](https://vladmihalcea.com/manytoone-jpa-hibernate/).
 - SIA, гл. 1 «Getting started with Spring» (IoC, DI, конфигурация) и гл. 2 «Developing web applications» (Spring MVC). Всё, что про Boot, мысленно переводи в ручную конфигурацию.
@@ -293,7 +294,7 @@ accounts.computeIfPresent(id, (k, acc) -> {   // ✅ функция выполн
 
 ### Веха 4.7 — Деплой
 
-**Что нужно сделать.** WAR в Tomcat на VPS + Postgres (Docker или системный), креды вне репозитория.
+**Что нужно сделать.** WAR в Tomcat 11 на VPS + Postgres (Docker или системный), креды вне репозитория.
 Пройти [чеклист из ТЗ](https://zhukovsd.github.io/java-backend-learning-course/projects/tennis-scoreboard/#чеклист-для-самопроверки).
 Он большой и очень конкретный: пройди **каждый** пункт и отметь в README.
 

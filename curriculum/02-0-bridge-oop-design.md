@@ -354,7 +354,7 @@ ticker.stop();
   [Фабричный метод](https://refactoring.guru/ru/design-patterns/factory-method), [Наблюдатель](https://refactoring.guru/ru/design-patterns/observer).
   В каждой статье GURU читай разделы «Проблема», «Решение», «Применимость».
 - UML: [Mermaid classDiagram](https://mermaid.js.org/syntax/classDiagram.html) — 15 минут.
-- Потоки: JCIP, гл. 1 «Introduction» (риски потоков), гл. 2 «Thread Safety» (атомарность, гонки), гл. 3 «Sharing Objects» (видимость, `volatile`) — **обязательно**. CJ1, гл. 10 «Concurrent Programming», разделы Threads и Synchronization. EJ 78, 81.
+- Потоки: JCIP, гл. 1 «Introduction» (риски потоков), гл. 2 «Thread Safety» (атомарность, гонки), гл. 3 «Sharing Objects» (видимость, `volatile`) — **обязательно**. CJ1, гл. 10 «Concurrency», разделы Threads и Synchronization. EJ 78, 81.
 
 ---
 

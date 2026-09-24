@@ -160,7 +160,7 @@ Optional<List<Person>> chain(Person from, Person to) {
 - JCIP, гл. 2 «Thread Safety», гл. 3 «Sharing Objects» (видимость, `volatile`) — **обязательно перед вехой 2.6**; гл. 14 «Building Custom Synchronizers» — раздел про condition queues и `wait/notify`, только если пойдёшь этим путём.
 - JCIP, гл. 6 «Task Execution», гл. 7 «Cancellation and Shutdown» — для челленджа с `ScheduledExecutorService`.
 - EJ 78 (синхронизируйте доступ к общим изменяемым данным), EJ 81 (утилиты конкурентности вместо `wait/notify`).
-- CJ1, гл. 10 «Concurrent Programming» — разделы Threads, Synchronization.
+- CJ1, гл. 10 «Concurrency» — разделы Threads, Synchronization.
 - Алгоритмы: [Red Blob Games — Introduction to A*](https://www.redblobgames.com/pathfinding/a-star/introduction.html) — лучшее объяснение BFS → Дейкстра → A* с интерактивными картинками. [Википедия: поиск в ширину](https://ru.wikipedia.org/wiki/Поиск_в_ширину).
 
 ---

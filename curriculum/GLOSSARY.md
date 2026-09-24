@@ -203,7 +203,7 @@
 
 ## Тестирование
 
-- **JUnit 5 / AssertJ / Mockito** — фреймворк тестов / удобные проверки / моки. *Python:* pytest / assert-хелперы / `unittest.mock`. → [0′](00-java-for-pythonists.md)
+- **JUnit (Jupiter) / AssertJ / Mockito** — фреймворк тестов (версии 5 и 6 — один API) / удобные проверки / моки. *Python:* pytest / assert-хелперы / `unittest.mock`. → [0′](00-java-for-pythonists.md)
 - **Юнит-тест / интеграционный тест** — проверка одного класса изолированно / проверка связки с настоящей БД/HTTP. → [5](05-weather-viewer.md)
 - **Mock / Stub / Fake** — проверяет вызовы / возвращает заготовки / упрощённая рабочая реализация. → [5](05-weather-viewer.md)
 - **TDD** — сначала тест, потом код. → [4](04-tennis-scoreboard.md)
