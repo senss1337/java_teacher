@@ -17,6 +17,9 @@
 | 1.3 | Консоль и отрисовка | ⬜ | | |
 | 1.4 | Игровой цикл, финал | ⬜ | | |
 | 1.★ | Защита | ⬜ | | |
+| **М2** | **[Мостик: ООП-дизайн и потоки](curriculum/02-0-bridge-oop-design.md)** | | | |
+| B2.1 | SOLID и паттерны: 6 упражнений | ⬜ | | |
+| B2.2 | Потоки: гонка, флаг остановки, пауза | ⬜ | | |
 | **2** | **[Симуляция](curriculum/02-simulation.md)** | | | |
 | 2.1 | Координаты, сущности, карта | ⬜ | | |
 | 2.2 | Рендерер | ⬜ | | |
@@ -26,6 +29,9 @@
 | 2.6 | Пауза и потоки | ⬜ | | |
 | 2.7 | Баланс и финал | ⬜ | | |
 | 2.★ | Защита | ⬜ | | |
+| **М3** | **[Мостик: веб и JDBC](curriculum/03-0-bridge-web-jdbc.md)** | | | |
+| B3.1 | Сервлеты, фильтры, Jackson, Tomcat | ⬜ | | |
+| B3.2 | JDBC: инъекции, транзакции, N+1, ограничения, пул | ⬜ | | |
 | **3** | **[Обмен валют](curriculum/03-currency-exchange.md)** | | | |
 | 3.1 | WAR + Tomcat + фильтр + composition root | ⬜ | | |
 | 3.2 | Схема БД и DAO | ⬜ | | |
@@ -35,6 +41,9 @@
 | 3.6 | Ошибки, логирование, фронтенд, тесты | ⬜ | | |
 | 3.7 | Деплой | ⬜ | | |
 | 3.★ | Защита | ⬜ | | |
+| **М4** | **[Мостик: Spring и Hibernate](curriculum/04-0-bridge-spring-hibernate.md)** | | | |
+| B4.1 | Spring-контейнер, прокси, Spring MVC | ⬜ | | |
+| B4.2 | Hibernate: dirty checking, LAZY, N+1, пагинация | ⬜ | | |
 | **4** | **[Табло теннисного матча](curriculum/04-tennis-scoreboard.md)** | | | |
 | 4.1 | Доменная модель (TDD) | ⬜ | | |
 | 4.2 | Spring MVC + Hibernate + Postgres | ⬜ | | |
@@ -52,6 +61,9 @@
 | 5.5 | Локации и главная | ⬜ | | |
 | 5.6 | Деплой | ⬜ | | |
 | 5.★ | Защита | ⬜ | | |
+| **М6** | **[Мостик: Boot, Docker, Security](curriculum/06-0-bridge-boot-docker-security.md)** | | | |
+| B6.1 | Docker, Compose, Spring Boot, Spring Data | ⬜ | | |
+| B6.2 | Spring Security (JSON-логин), Redis, Testcontainers | ⬜ | | |
 | **6** | **[Облачное хранилище](curriculum/06-cloud-file-storage.md)** | | | |
 | 6.1 | Compose + Boot + Liquibase | ⬜ | | |
 | 6.2 | Auth на Spring Security | ⬜ | | |
@@ -62,6 +74,9 @@
 | 6.7 | Поиск, фронтенд, Swagger | ⬜ | | |
 | 6.8 | Redis, тесты хранилища, деплой | ⬜ | | |
 | 6.★ | Защита | ⬜ | | |
+| **М7** | **[Мостик: Kafka и микросервисы](curriculum/07-0-bridge-kafka-microservices.md)** | | | |
+| B7.1 | Kafka: группы, идемпотентность, DLT | ⬜ | | |
+| B7.2 | JWT | ⬜ | | |
 | **7** | **[Планировщик задач](curriculum/07-task-tracker.md)** | | | |
 | 7.1 | Архитектура на бумаге | ⬜ | | |
 | 7.2 | Инфраструктура + пользователи + JWT | ⬜ | | |
