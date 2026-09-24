@@ -28,6 +28,16 @@
 | `Thread`, `Runnable`, `volatile`, `synchronized`, `wait/notify` или `ReentrantLock`/`Condition` | пауза/возобновление | Java Concurrency in Practice, гл. 1–3 |
 | GoF: [Template Method](https://refactoring.guru/ru/design-patterns/template-method), [Strategy](https://refactoring.guru/ru/design-patterns/strategy), [Command](https://refactoring.guru/ru/design-patterns/command), [Factory Method](https://refactoring.guru/ru/design-patterns/factory-method), [Observer](https://refactoring.guru/ru/design-patterns/observer) | архитектура | — |
 
+📚 **Читать:**
+- EJ 18 (композиция вместо наследования), EJ 19 (проектируйте для наследования или запрещайте его), EJ 20 (интерфейсы вместо абстрактных классов), EJ 23 (иерархии классов вместо тегированных классов).
+- HFDP: гл. 1 (Strategy), гл. 2 (Observer), гл. 4 (Factory), гл. 6 (Command), гл. 8 (Template Method). Если книги нет — те же паттерны на GURU по ссылкам в таблице.
+- CJ1, гл. 5 «Inheritance» (повторить абстрактные классы и `protected`), гл. 8 «Generic Programming» (bounded types — для «найди сущности типа T»).
+- JCIP, гл. 2 «Thread Safety», гл. 3 «Sharing Objects» (видимость, `volatile`) — **обязательно перед вехой 2.6**; гл. 14 «Building Custom Synchronizers» — раздел про condition queues и `wait/notify`, только если пойдёшь этим путём.
+- JCIP, гл. 6 «Task Execution», гл. 7 «Cancellation and Shutdown» — для челленджа с `ScheduledExecutorService`.
+- EJ 78 (синхронизируйте доступ к общим изменяемым данным), EJ 81 (утилиты конкурентности вместо `wait/notify`).
+- CJ1, гл. 10 «Concurrent Programming» — разделы Threads, Synchronization.
+- Алгоритмы: [Red Blob Games — Introduction to A*](https://www.redblobgames.com/pathfinding/a-star/introduction.html) — лучшее объяснение BFS → Дейкстра → A* с интерактивными картинками.
+
 > 🎯 **Спросят на собесе:** Композиция vs наследование: почему «предпочитай композицию»?
 > **Ответ:** Наследование создаёт сильную связь с реализацией родителя (хрупкий базовый класс), фиксируется на этапе
 > компиляции и нарушает инкапсуляцию. Композиция позволяет собирать поведение из частей и менять его в рантайме.

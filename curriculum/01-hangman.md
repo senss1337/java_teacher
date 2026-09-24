@@ -27,6 +27,14 @@
 | Text blocks (`"""`) | ASCII-картинки | — |
 | Effective Java: Item 5 (DI вместо хардкода ресурсов), Item 17 (минимизация мутабельности) | архитектура | — |
 
+📚 **Читать** (по диагонали, 2–3 часа):
+- EJ 5 «Предпочитайте внедрение зависимостей жёстко прошитым ресурсам» — **ключевой Item для этого проекта** (там пример со словарём!).
+- EJ 17 (минимизируйте изменяемость), EJ 34 (enum вместо констант), EJ 50 (защитные копии).
+- HFDP, гл. 1 «Welcome to Design Patterns» (Strategy) и гл. 10 «The State Pattern». Или GURU: [Стратегия](https://refactoring.guru/ru/design-patterns/strategy), [Состояние](https://refactoring.guru/ru/design-patterns/state).
+- CC, гл. 2 «Содержательные имена» и гл. 3 «Функции».
+- CJ1, гл. 3, раздел Input and Output (`Scanner`); [Javadoc `Class.getResourceAsStream`](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Class.html#getResourceAsStream(java.lang.String)) — правила разрешения путей.
+- UTPP, гл. 2 «What is a unit test?» — лондонская vs классическая школа, по диагонали.
+
 ## Паттерны и принципы в фокусе
 
 - **SRP.** Сколько причин для изменения у твоих классов? «Поменяли словарь», «поменяли правила», «сделали GUI вместо консоли» —

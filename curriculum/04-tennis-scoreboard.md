@@ -33,6 +33,19 @@ REST API: создать матч (`POST /matches`, в ответ UUID), нач�
 | `ConcurrentHashMap`: `compute`, `computeIfPresent`, атомарность составных операций; `synchronized` на объекте матча | CHM потокобезопасна для **мапы**, но не для **объектов в ней** |
 | JUnit 5: `@ParameterizedTest`, `@Nested`, AssertJ | тест-кейсы строят счёт — нужны удобные хелперы в тестах |
 
+📚 **Читать:**
+- PoEAA, гл. 9: Domain Model vs Transaction Script; гл. 11 «Object-Relational Behavioral Patterns» (Unit of Work, Identity Map, Lazy Load — это то, что делает Hibernate); гл. 18: Value Object.
+- Фаулер, [Anemic Domain Model](https://martinfowler.com/bliki/AnemicDomainModel.html) (статья, 5 минут).
+- HFDP, гл. 10 «The State Pattern» или [GURU: Состояние](https://refactoring.guru/ru/design-patterns/state).
+- [Hibernate ORM User Guide](https://docs.jboss.org/hibernate/orm/6.6/userguide/html_single/Hibernate_User_Guide.html): разделы Domain Model, Bootstrap, Persistence Context, Fetching, Transactions — по диагонали.
+- HPJP, часть II «JPA and Hibernate»: главы про маппинг связей (Relationships), Flushing, **Fetching** (N+1, `JOIN FETCH`, пагинация) — Fetching обязательно.
+- Блог Михалчи: [N+1 query problem](https://vladmihalcea.com/n-plus-1-query-problem/), [Best way to map @ManyToOne](https://vladmihalcea.com/manytoone-jpa-hibernate/).
+- SIA, гл. 1 «Getting started with Spring» (IoC, DI, конфигурация) и гл. 2 «Developing web applications» (Spring MVC). Всё, что про Boot, мысленно переводи в ручную конфигурацию.
+- [Spring Framework Reference: Core — The IoC Container](https://docs.spring.io/spring-framework/reference/core/beans.html) (Introduction, Bean Scopes, Java-based Container Configuration), [Web MVC — DispatcherServlet](https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-servlet.html), [Transaction Management — Declarative](https://docs.spring.io/spring-framework/reference/data-access/transaction/declarative.html) (особенно раздел про прокси).
+- JCIP, гл. 4 «Composing Objects», гл. 5 «Building Blocks» (concurrent-коллекции) — перед вехой 4.4.
+- UTPP, гл. 4 «The four pillars of a good unit test» и гл. 6 «Styles of unit testing» — для TDD вехи 4.1.
+- Кент Бек, «Экстремальное программирование: разработка через тестирование» (*TDD by Example*), часть I — по желанию, если TDD в новинку.
+
 > 🎯 **Спросят на собесе:** Состояния сущности в Hibernate/JPA?
 > **Ответ:** Transient (новый объект, не связан с сессией), Managed/Persistent (в контексте персистентности, изменения
 > отслеживаются dirty checking и сбрасываются при flush), Detached (сессия закрыта, изменения не отслеживаются),

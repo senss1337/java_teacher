@@ -39,6 +39,19 @@ Swagger, Docker Compose, Testcontainers, деплой JAR.
 | springdoc-openapi | Swagger UI, аннотации `@Operation`, `@ApiResponse` |
 | Path traversal, валидация путей и имён | `../`, `//`, пустые сегменты, запрещённые символы |
 
+📚 **Читать:**
+- SIA: гл. 1 (Boot, стартеры), гл. 3 «Working with data» (Spring Data JPA), гл. 5 «Securing Spring», гл. 6 «Working with configuration properties», гл. 7 «Creating REST services».
+- SSIA: главы про архитектуру Spring Security (фильтры, `AuthenticationManager`, `UserDetailsService`, `PasswordEncoder`), CSRF и CORS — **основной учебник для вехи 6.2**.
+- [Spring Boot Reference: Auto-configuration](https://docs.spring.io/spring-boot/reference/using/auto-configuration.html), [Creating Your Own Auto-configuration](https://docs.spring.io/spring-boot/reference/features/developing-auto-configuration.html) (чтобы понять условия), [Externalized Configuration](https://docs.spring.io/spring-boot/reference/features/external-config.html).
+- [Spring Security Reference: Architecture](https://docs.spring.io/spring-security/reference/servlet/architecture.html) и [Persisting Authentication](https://docs.spring.io/spring-security/reference/servlet/authentication/persistence.html) — **обязательно**.
+- [Spring Session — Redis](https://docs.spring.io/spring-session/reference/getting-started/using-redis.html).
+- [Spring Data JPA Reference: Query Methods](https://docs.spring.io/spring-data/jpa/reference/jpa/query-methods.html).
+- [AWS S3 User Guide: Organizing objects using prefixes](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-prefixes.html) — почему «папок нет». [MinIO Java SDK API Reference](https://min.io/docs/minio/linux/developers/java/API.html).
+- [Testcontainers: Getting started](https://java.testcontainers.org/quickstart/junit_5_quickstart/), [Spring Boot: Testcontainers support](https://docs.spring.io/spring-boot/reference/testing/testcontainers.html).
+- Найджел Поултон, *Docker Deep Dive*: главы про образы, контейнеры, volumes, Compose. Или [Docker docs: Get started](https://docs.docker.com/get-started/) + [Compose file reference](https://docs.docker.com/reference/compose-file/).
+- [OWASP: Path Traversal](https://owasp.org/www-community/attacks/Path_Traversal).
+- PoEAA, гл. 18: Gateway, Separated Interface — теория фасада над хранилищем.
+
 > 🎯 **Спросят на собесе:** Как работает автоконфигурация Spring Boot?
 > **Ответ:** Boot импортирует классы из `META-INF/spring/...AutoConfiguration.imports`. Каждый из них — `@Configuration`
 > с условиями (`@ConditionalOnClass`, `@ConditionalOnMissingBean`, `@ConditionalOnProperty`): бин создаётся, только если

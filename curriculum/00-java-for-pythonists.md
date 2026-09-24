@@ -15,6 +15,11 @@
 autoboxing/unboxing, кеш `Integer` (-128..127), `var` (локальный вывод типов), переполнение (`Math.addExact`),
 целочисленное деление, `char` как UTF-16 code unit.
 
+📚 **Читать:**
+- CJ1, гл. 3 «Fundamental Programming Structures» — разделы про типы данных, переменные, операторы, `var`, приведение типов. Большую часть синтаксиса пролистывай, притормози на целочисленном переполнении и приведении.
+- EJ 61 (примитивы предпочтительнее упакованных типов), EJ 60 (избегайте `float`/`double` для точных ответов).
+- [dev.java: Primitive Types](https://dev.java/learn/language-basics/primitive-types/), [Oracle Tutorial: Autoboxing](https://docs.oracle.com/javase/tutorial/java/data/autoboxing.html).
+
 **Из Python:** `int` в Python — безразмерный. В Java `int` — 32 бита и молча переполняется.
 `None` ≈ `null`, но у примитива `null` быть не может, а unboxing `null` даст `NullPointerException`.
 
@@ -37,6 +42,13 @@ autoboxing/unboxing, кеш `Integer` (-128..127), `var` (локальный в�
 **Изучить:** модификаторы доступа (`private`, package-private, `protected`, `public`), конструкторы и их перегрузка,
 `this(...)`, `static` vs экземплярные члены, `final` (поле, переменная, метод, класс), пакеты, «один публичный класс на файл».
 Effective Java: Items 1 (static factory), 2 (Builder), 15–17 (минимизация доступности, иммутабельность).
+
+📚 **Читать:**
+- CJ1, гл. 4 «Objects and Classes»: конструкторы, `static`, пакеты, `final`-поля. Пролистай целиком — это центральная глава для питониста.
+- EJ, гл. 2: Item 1 (статические фабрики), Item 2 (Builder), Item 3 (Singleton — чтобы потом понимать, почему его не любят).
+- EJ, гл. 4: Item 15 (минимизируйте доступность), Item 16 (геттеры вместо публичных полей), Item 17 (минимизируйте изменяемость) — **обязательно**.
+- EJ 50 (защитные копии).
+- CC, гл. 10 «Классы» — по диагонали.
 
 **Из Python:** в Python «мы все взрослые люди», `_private` — соглашение. В Java `private` — **гарантия компилятора**,
 и по умолчанию всё должно быть максимально закрыто. Сеттеры — не норма, а исключение. «Все поля private + геттеры
@@ -64,6 +76,12 @@ Effective Java: Items 1 (static factory), 2 (Builder), 15–17 (минимиза
 контракт `hashCode`, почему они переопределяются вместе. `Comparable` vs `Comparator`,
 `Comparator.comparing(...).thenComparing(...)`. Effective Java: Items 10–14.
 
+📚 **Читать:**
+- EJ, гл. 3 «Методы, общие для всех объектов»: Item 10 (`equals`), Item 11 (`hashCode`), Item 12 (`toString`), Item 14 (`Comparable`). Item 13 (`clone`) только пробеги, чтобы знать, почему `clone` избегают.
+- CJ1, гл. 5, раздел «Object: The Cosmic Superclass» (`equals`, `hashCode`, `toString`).
+- [Javadoc `Object.equals`/`hashCode`](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html) — контракт прямо из первоисточника.
+- [Javadoc `Comparator`](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Comparator.html) — статические и default-методы.
+
 **Из Python:** `__eq__`/`__hash__` — прямой аналог, и правило то же: равные объекты — равные хеши.
 Но в Python `dict` на мутабельном объекте без `__hash__` просто не заработает, а в Java — заработает и сломается тихо.
 
@@ -86,6 +104,12 @@ Effective Java: Items 1 (static factory), 2 (Builder), 15–17 (минимиза
 **Изучить:** `extends`, `implements`, `abstract`, `super`, переопределение vs перегрузка, `@Override`,
 default- и static-методы интерфейсов, `sealed`-иерархии (Java 17), pattern matching для `instanceof` и `switch` (Java 21).
 Effective Java: Items 18 (композиция вместо наследования), 20 (интерфейсы вместо абстрактных классов).
+
+📚 **Читать:**
+- CJ1, гл. 5 «Inheritance»: `super`, полиморфизм, `abstract`, `protected`, sealed-классы.
+- CJ1, гл. 6 «Interfaces, Lambda Expressions, and Inner Classes»: первая часть про интерфейсы, default-методы.
+- EJ, гл. 4: Item 18 (композиция вместо наследования), Item 19 (проектируйте для наследования или запрещайте его), Item 20 (интерфейсы вместо абстрактных классов), Item 23 (иерархии вместо «тегированных» классов).
+- [JEP 409: Sealed Classes](https://openjdk.org/jeps/409), [JEP 441: Pattern Matching for switch](https://openjdk.org/jeps/441) — раздел Motivation.
 
 **Из Python:** нет множественного наследования классов (только интерфейсов). Нет утиной типизации: чтобы передать
 «что-то с методом `fly()`», нужен интерфейс. Протоколы (`typing.Protocol`) ближе всего к интерфейсам,
@@ -112,6 +136,11 @@ Effective Java: Items 18 (композиция вместо наследован
 **try-with-resources** и `AutoCloseable`, suppressed exceptions, multi-catch, цепочки причин (`cause`),
 собственные исключения. Effective Java: Items 69–77.
 
+📚 **Читать:**
+- CJ1, гл. 7 «Exceptions, Assertions, and Logging»: иерархия, try-with-resources, suppressed. Раздел про `java.util.logging` пропусти, логирование будет через SLF4J.
+- EJ, гл. 10 «Исключения», Items 69–77. Особенно Item 70 (checked vs unchecked), Item 73 (исключения, соответствующие уровню абстракции — **трансляция исключений, пригодится в проекте 3**), Item 77 (не игнорируйте исключения).
+- EJ 9 (try-with-resources вместо try-finally).
+
 **Из Python:** try-with-resources — это `with`. Checked-исключения — новая концепция: компилятор **заставляет**
 обработать или объявить в `throws`. Не превращай всё в `RuntimeException` бездумно, но и не тащи checked через все слои.
 
@@ -137,6 +166,12 @@ Effective Java: Items 18 (композиция вместо наследован
 **сложность операций**, как устроен `HashMap` (бакеты, load factor, treeification в Java 8+),
 неизменяемые коллекции (`List.of`, `Collections.unmodifiableList`, `List.copyOf`), `Iterator` и
 `ConcurrentModificationException`, `Map.computeIfAbsent/merge/getOrDefault`.
+
+📚 **Читать:**
+- CJ1, гл. 9 «Collections» — **целиком**: интерфейсы, реализации, представления (views), алгоритмы.
+- [Oracle Tutorial: Collections](https://docs.oracle.com/javase/tutorial/collections/) — раздел Interfaces и Implementations.
+- Исходник `java.util.HashMap` (Ctrl/Cmd+B в IDEA): прочитай комментарий Implementation notes в начале класса и методы `hash()`, `putVal()`.
+- EJ 54 (возвращайте пустые коллекции, а не `null`), EJ 64 (ссылайтесь на объекты через интерфейсы).
 
 **Из Python:** `list` ≈ `ArrayList`, `dict` ≈ `LinkedHashMap` (сохраняет порядок вставки!), а `HashMap` порядок
 **не** гарантирует. `set` ≈ `HashSet`. `collections.deque` ≈ `ArrayDeque`. `heapq` ≈ `PriorityQueue`.
@@ -169,6 +204,11 @@ Effective Java: Items 18 (композиция вместо наследован
 **PECS**, **type erasure** и её последствия (нельзя `new T()`, `T[]`, `instanceof List<String>`), raw types (не использовать).
 Effective Java: Items 26–33.
 
+📚 **Читать:**
+- CJ1, гл. 8 «Generic Programming» — целиком, особенно разделы про wildcard-типы и ограничения, связанные со стиранием.
+- EJ, гл. 5 «Обобщённое программирование»: Item 26 (не используйте raw types), Item 28 (списки вместо массивов), Item 31 (**PECS**), Item 33 (типобезопасные гетерогенные контейнеры).
+- [Oracle Tutorial: Generics](https://docs.oracle.com/javase/tutorial/java/generics/) — разделы Wildcards и Type Erasure.
+
 **Из Python:** `TypeVar`/`Generic` — похоже, но в Python подсказки не проверяются в рантайме никогда,
 а в Java проверяются компилятором и **стираются** в рантайме.
 
@@ -193,6 +233,12 @@ Effective Java: Items 26–33.
 методы, абстрактные методы в константах, `EnumMap`/`EnumSet`, `valueOf`), `Optional` (когда использовать — только как
 возвращаемый тип; `map`, `flatMap`, `orElseThrow`, `orElseGet` vs `orElse`).
 Effective Java: Items 34–38 (enum), 55 (Optional).
+
+📚 **Читать:**
+- EJ, гл. 6: Item 34 (enum вместо `int`-констант), Item 36 (`EnumSet`), Item 37 (`EnumMap` вместо индексов по `ordinal`).
+- EJ 55 (возвращайте `Optional` обдуманно).
+- CJ1, гл. 4, раздел про records; гл. 5, раздел Enumeration Classes.
+- [JEP 395: Records](https://openjdk.org/jeps/395) — Goals и Non-Goals.
 
 **Из Python:** `record` ≈ `@dataclass(frozen=True)`. `enum` в Java — полноценные классы-синглтоны с поведением,
 мощнее Python-`Enum`.
@@ -220,6 +266,11 @@ Effective Java: Items 34–38 (enum), 55 (Optional).
 `Collectors` (`groupingBy`, `partitioningBy`, `toMap` с merge-функцией, `joining`), `Stream.toList()` (Java 16+),
 примитивные стримы, почему стрим нельзя переиспользовать, `parallelStream` (и почему почти никогда).
 
+📚 **Читать:**
+- CJ1, гл. 6, раздел «Lambda Expressions» (функциональные интерфейсы, ссылки на методы, область видимости).
+- CJ2, гл. 1 «Streams» — целиком, по диагонали; притормози на `Collectors.groupingBy`/`toMap`.
+- EJ, гл. 7 «Лямбды и потоки»: Item 42–44, Item 45 (используйте стримы обдуманно), Item 46 (функции без побочных эффектов), Item 48 (осторожно с параллельными стримами).
+
 **Из Python:** Stream ≈ генераторные выражения + `itertools`. Но лямбда в Java не может менять локальные переменные
 (effectively final), и это фича, а не баг.
 
@@ -243,6 +294,12 @@ Effective Java: Items 34–38 (enum), 55 (Optional).
 `java.nio.file.Files`/`Path`, кодировки (всегда указывай `StandardCharsets.UTF_8`), `java.time`
 (`LocalDate`, `LocalDateTime`, `Instant`, `ZonedDateTime`, `Duration`, `Clock` — для тестируемости).
 
+📚 **Читать:**
+- CJ1, гл. 3, разделы Strings и Input and Output.
+- CJ2, гл. 2 «Input and Output»: `Path`, `Files`, кодировки. Разделы про сериализацию и regex пропусти.
+- CJ2, гл. 6 «The Date and Time API» — целиком, она короткая.
+- EJ 6 (избегайте лишних объектов — там про `String`), EJ 63 (производительность конкатенации строк).
+
 > 🎯 **Спросят на собесе:** Почему `String` иммутабелен?
 > **Ответ:** Безопасность (пути, URL, ключи в мапах), кеширование `hashCode`, string pool, потокобезопасность.
 
@@ -257,6 +314,11 @@ Effective Java: Items 34–38 (enum), 55 (Optional).
 **Изучить:** `@Test`, `@BeforeEach`, `@DisplayName`, `@Nested`, `@ParameterizedTest` (`@CsvSource`, `@MethodSource`),
 `assertThrows`, AssertJ (`assertThat(...).containsExactly(...)`, `extracting`, `isEqualByComparingTo` для `BigDecimal`).
 Именование тестов: `method_condition_expectedResult` или `should...When...`. Структура Arrange-Act-Assert.
+
+📚 **Читать:**
+- [JUnit 5 User Guide](https://junit.org/junit5/docs/current/user-guide/): разделы Writing Tests, Parameterized Tests, Nested Tests.
+- [AssertJ: Core features](https://assertj.github.io/doc/#assertj-core-assertions-guide) — пролистай, какие бывают ассерты.
+- UTPP, гл. 3 «The anatomy of a unit test» (AAA, именование тестов) — по диагонали.
 
 **Из Python:** pytest-фикстуры ≈ `@BeforeEach` + поля/`@ExtendWith`; `pytest.mark.parametrize` ≈ `@ParameterizedTest`.
 

@@ -64,15 +64,36 @@
 
 ## Литература (сквозная)
 
-Основное — выбери одно из «базы» и читай параллельно проектам 0′–2:
-- **Кей Хорстманн, «Java. Библиотека профессионала», т. 1** (или *Core Java, Vol. I*) — база, 12-е изд. и новее (Java 17+).
-- **Джошуа Блох, «Effective Java», 3-е изд.** — обязательно. Читать главами по мере проектов, ссылки в модулях.
-- **Брайан Гётц, «Java Concurrency in Practice»** — к проектам 2 и 4 (главы 1–5).
-- **Мартин Фаулер, «Patterns of Enterprise Application Architecture»** — к проектам 3–5 (Domain Model, DAO/Repository,
-  DTO, Unit of Work, Identity Map).
-- **«Head First. Паттерны проектирования»** или [refactoring.guru/ru/design-patterns](https://refactoring.guru/ru/design-patterns) — справочник по GoF.
-- **Влад Михалча, «High-Performance Java Persistence»** + его блог — к проектам 4–6.
-- Раздел [технологий курса](https://zhukovsd.github.io/java-backend-learning-course/technologies/java/) — подборка ресурсов автора роадмапа.
+В каждом модуле в разделе «Что изучить» стоят блоки **📚 Читать** с конкретными главами.
+Читай **по диагонали**: цель — узнать, что тема существует и где про неё написано, а не законспектировать.
+Если в чём-то путаешься на ревью, возвращаешься к главе уже прицельно.
+
+Ниже — сокращения, которые используются в модулях. Главы указаны по оригинальным изданиям;
+в русских переводах нумерация глав совпадает, а у Effective Java совпадает нумерация Items.
+
+| Сокращение | Книга | Где нужна |
+|------------|-------|-----------|
+| **CJ1** | Кей Хорстманн, *Core Java, Vol. I — Fundamentals*, 12-е изд. (рус.: «Java. Библиотека профессионала, том 1») | 0, 0′, 1–2 |
+| **CJ2** | Кей Хорстманн, *Core Java, Vol. II — Advanced Features*, 12-е изд. (том 2) | 0′ (стримы, I/O, время), 3 (JDBC) |
+| **EJ** | Джошуа Блох, *Effective Java*, 3-е изд. (рус.: «Java. Эффективное программирование») — ссылки вида **EJ 17** = Item 17 | везде, **главная книга курса** |
+| **JCIP** | Брайан Гётц, *Java Concurrency in Practice* (рус.: «Java Concurrency на практике») | 2, 4, 7 |
+| **HFDP** | Фримен и Робсон, *Head First Design Patterns*, 2-е изд. (рус.: «Head First. Паттерны проектирования») | 1–3 |
+| **GURU** | [refactoring.guru/ru/design-patterns](https://refactoring.guru/ru/design-patterns) — онлайн-справочник GoF | 1–7 |
+| **PoEAA** | Мартин Фаулер, *Patterns of Enterprise Application Architecture* (рус.: «Шаблоны корпоративных приложений») | 3–6 |
+| **HPJP** | Влад Михалча, *High-Performance Java Persistence* + [его блог](https://vladmihalcea.com/tutorials/hibernate/) | 3–6 |
+| **SIA** | Крейг Уоллс, *Spring in Action*, 6-е изд. (рус.: «Spring в действии») | 4–7 |
+| **SSIA** | Лауренциу Спилкэ, *Spring Security in Action*, 2-е изд. | 6–7 |
+| **UTPP** | Владимир Хориков, *Unit Testing Principles, Practices, and Patterns* (рус.: «Принципы юнит-тестирования») | 1, 4–6 |
+| **DDIA** | Мартин Клеппман, *Designing Data-Intensive Applications* (рус.: «Высоконагруженные приложения») | 3–7 |
+| **MSP** | Крис Ричардсон, *Microservices Patterns* (рус.: «Микросервисы. Паттерны разработки и рефакторинга») | 7 |
+| **KDG** | Шапира и др., *Kafka: The Definitive Guide*, 2-е изд. | 7 |
+| **CC** | Роберт Мартин, *Clean Code* (рус.: «Чистый код») | фон, главы 2–3, 7, 10 |
+
+Бесплатные онлайн-источники, на которые тоже будут ссылки: [Oracle Java Tutorials](https://docs.oracle.com/javase/tutorial/),
+[dev.java/learn](https://dev.java/learn/), [Baeldung](https://www.baeldung.com/), официальная документация Spring/Hibernate,
+[Use The Index, Luke](https://use-the-index-luke.com/ru), раздел [технологий курса](https://zhukovsd.github.io/java-backend-learning-course/technologies/java/).
+
+Какие книги купить в первую очередь: **EJ** (обязательно), **CJ1**, **JCIP**. Остальные — по мере проектов.
 
 ## Контроль прогресса
 

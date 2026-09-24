@@ -31,6 +31,18 @@ REST API для валют и курсов: `GET/POST /currencies`, `GET /curren
 | REST: коды ответов, идемпотентность методов, `x-www-form-urlencoded` | PATCH с form-urlencoded: `getParameter` для PATCH не работает в Tomcat — почему и что делать? |
 | Фаулер, PoEAA: Table Data Gateway / DAO, Data Transfer Object, Service Layer | — |
 
+📚 **Читать:**
+- [Jakarta Servlet 6.0 Specification](https://jakarta.ee/specifications/servlet/6.0/jakarta-servlet-spec-6.0): гл. 2 «The Servlet Interface» (жизненный цикл, многопоточность), гл. 6 «Filtering» — по диагонали, это первоисточник.
+- [Baeldung: Introduction to Java Servlets](https://www.baeldung.com/intro-to-servlets), [Baeldung: Servlet Filters](https://www.baeldung.com/intercepting-filter-pattern-in-java).
+- CJ2, гл. 5 «Database Programming» (JDBC): соединения, `PreparedStatement`, транзакции, метаданные — **целиком по диагонали**.
+- [Oracle Tutorial: JDBC Basics](https://docs.oracle.com/javase/tutorial/jdbc/basics/) — разделы Using Prepared Statements, Using Transactions.
+- HPJP, часть I «JDBC and Database Essentials»: главы про управление соединениями (connection pooling) и транзакции.
+- PoEAA: гл. 9 «Domain Logic Patterns» (Transaction Script, Service Layer), гл. 10 «Data Source Architectural Patterns» (Table Data Gateway), гл. 14 «Web Presentation Patterns» (Front Controller, Page Controller), гл. 15 «Distribution Patterns» (Data Transfer Object), гл. 18 «Base Patterns» (Gateway, Money).
+- EJ 60 (не используйте `double` для точных вычислений), EJ 73 (трансляция исключений), EJ 3 и EJ 5 (синглтоны vs DI).
+- DDIA, гл. 7 «Transactions» — первые разделы (ACID, уровни изоляции). Это одна из лучших глав книги.
+- [Use The Index, Luke — «Анатомия индекса»](https://use-the-index-luke.com/ru/sql/anatomy) — как работают индексы.
+- [Javadoc `BigDecimal`](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/math/BigDecimal.html) — вводная часть про scale, precision и rounding.
+
 > 🎯 **Спросят на собесе:** Жизненный цикл сервлета?
 > **Ответ:** Контейнер загружает класс, создаёт **один** экземпляр, вызывает `init()`; на каждый запрос — `service()`
 > (диспетчеризует в `doGet/doPost/...`) в потоке из пула контейнера; при остановке — `destroy()`.

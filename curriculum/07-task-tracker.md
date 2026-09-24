@@ -37,6 +37,19 @@
 | GitHub Actions: workflow, jobs, matrix, secrets, `docker/build-push-action` | секреты Docker Hub |
 | Maven multi-module (если монорепо): parent POM, `<modules>`, общий модуль контрактов | или отдельные репозитории — выбери и обоснуй |
 
+📚 **Читать:**
+- MSP: гл. 1 «Escaping monolithic hell», гл. 2 «Decomposition strategies», гл. 3 «Interprocess communication in a microservice architecture» (**transactional outbox, идемпотентность, request/reply — здесь**), гл. 11 про безопасность (JWT между сервисами). Или онлайн: [microservices.io/patterns](https://microservices.io/patterns/).
+- KDG: гл. 1 «Meet Kafka», гл. 3 «Kafka Producers», гл. 4 «Kafka Consumers» (consumer groups, commit offset'ов), гл. 7 «Reliable Data Delivery», гл. 8 «Exactly-Once Semantics» — по диагонали.
+- DDIA, гл. 11 «Stream Processing» (первая половина: брокеры, логи, семантики доставки) и гл. 12 «The Future of Data Systems» (раздел про end-to-end идемпотентность).
+- [Spring for Apache Kafka Reference](https://docs.spring.io/spring-kafka/reference/): разделы Receiving Messages, Error Handling / DLT, Request/Reply (`ReplyingKafkaTemplate`), Serialization.
+- SIA, гл. 9 «Sending messages asynchronously» (раздел про Kafka).
+- SSIA: главы про OAuth2 Resource Server и JWT. [RFC 7519 (JWT)](https://datatracker.ietf.org/doc/html/rfc7519) — разделы 1–4, [jwt.io/introduction](https://jwt.io/introduction). [OWASP JWT Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/JSON_Web_Token_for_Java_Cheat_Sheet.html).
+- [Spring Framework Reference: Task Scheduling](https://docs.spring.io/spring-framework/reference/integration/scheduling.html), [ShedLock README](https://github.com/lukas-krecan/ShedLock).
+- [OpenAI API: Chat Completions](https://platform.openai.com/docs/api-reference/chat) (или аналог выбранного провайдера), [OWASP LLM Top 10: Prompt Injection](https://genai.owasp.org/llmrisk/llm01-prompt-injection/).
+- [Docker docs: Multi-stage builds](https://docs.docker.com/build/building/multi-stage/), [Spring Boot: Efficient container images](https://docs.spring.io/spring-boot/reference/packaging/container-images/efficient-images.html).
+- [GitHub Actions: Quickstart](https://docs.github.com/en/actions/writing-workflows/quickstart), [Publishing Docker images](https://docs.github.com/en/actions/use-cases-and-examples/publishing-packages/publishing-docker-images).
+- [The Twelve-Factor App](https://12factor.net/ru/) — прочитать целиком, это 20 минут.
+
 > 🎯 **Спросят на собесе:** Как Kafka гарантирует порядок сообщений?
 > **Ответ:** Только внутри партиции. Сообщения с одинаковым ключом попадают в одну партицию (hash ключа), поэтому для
 > упорядоченной обработки по сущности (пользователь, заказ) используют её ID как ключ. Между партициями порядка нет.

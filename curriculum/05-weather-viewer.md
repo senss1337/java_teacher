@@ -34,6 +34,18 @@
 | Spring Test: `@SpringJUnitConfig`, `@ActiveProfiles`, транзакционные тесты с откатом; Mockito; MockRestServiceServer или WireMock | test pyramid |
 | `@Scheduled` (опционально) | чистка истёкших сессий |
 
+📚 **Читать:**
+- [MDN: HTTP cookies](https://developer.mozilla.org/ru/docs/Web/HTTP/Cookies) и [Set-Cookie](https://developer.mozilla.org/ru/docs/Web/HTTP/Headers/Set-Cookie) — все атрибуты.
+- [OWASP Session Management Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html) и [Password Storage Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html) — **обязательно**, это чеклист для вехи 5.2.
+- [OWASP Top 10](https://owasp.org/Top10/) — пробеги заголовки и описания.
+- [Thymeleaf + Spring tutorial](https://www.thymeleaf.org/doc/tutorials/3.1/thymeleafspring.html) — разделы про формы и фрагменты.
+- [Spring Framework Reference: Environment Abstraction / Profiles](https://docs.spring.io/spring-framework/reference/core/beans/environment.html), [Interception (HandlerInterceptor)](https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-config/interceptors.html), [REST Clients — RestClient](https://docs.spring.io/spring-framework/reference/integration/rest-clients.html).
+- [Spring Framework Reference: Testing](https://docs.spring.io/spring-framework/reference/testing.html) — разделы Spring TestContext Framework и MockRestServiceServer.
+- [Flyway: Concepts — Migrations](https://documentation.red-gate.com/fd/migrations-271585107.html).
+- PoEAA, гл. 14: Template View; гл. 18: Gateway, Service Stub.
+- UTPP, гл. 5 «Mocks and test fragility», гл. 7–8 про интеграционные тесты (что мокать, а что нет) — **главное чтение проекта**.
+- SIA, гл. 2 (Thymeleaf, формы, валидация).
+
 > 🎯 **Спросят на собесе:** Почему пароли хешируют BCrypt, а не SHA-256?
 > **Ответ:** SHA-256 быстрый — это плохо для паролей: перебор миллиардов вариантов в секунду на GPU. BCrypt/scrypt/Argon2
 > специально медленные (настраиваемый cost), содержат соль (защита от rainbow tables) и хранят её в самом хеше.

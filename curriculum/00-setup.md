@@ -60,6 +60,12 @@ Hello.java  --javac-->  Hello.class (байткод)  --java (JVM)-->  маши�
 > (или не инициализировался) в рантайме.
 > **Типичная ошибка:** считать их синонимами.
 
+📚 **Читать** (по диагонали):
+- CJ1, гл. 1 «An Introduction to Java» (история, «белая книга» — зачем JVM) и гл. 2 «The Java Programming Environment» (установка JDK, `javac`/`java`, `jshell`) — **весь шаг 0 по ним**.
+- [dev.java: Getting Started with Java](https://dev.java/learn/getting-started/) — официальный быстрый старт.
+- [Oracle: The `java` Command](https://docs.oracle.com/en/java/javase/21/docs/specs/man/java.html) — пролистай, как задаётся classpath (`-cp`) и какие бывают режимы запуска.
+- Для понимания JIT (по желанию): [dev.java: The JVM and Just-in-Time Compilation](https://dev.java/learn/jvm/) — раздел про JIT и HotSpot.
+
 ---
 
 ## 2. Установка JDK 21
@@ -142,6 +148,11 @@ mvn -version       # в выводе должна быть та же Java 21
 В `pom.xml` вместо `source`/`target` используй `<maven.compiler.release>21</maven.compiler.release>` —
 разберись сам, почему `release` правильнее (подсказка: проверка API стандартной библиотеки).
 
+📚 **Читать:**
+- [Maven: The Complete Reference](https://books.sonatype.com/mvnref-book/reference/) (Sonatype, бесплатно онлайн): гл. 3 «The Project Object Model», гл. 4 «The Build Lifecycle» — по диагонали.
+- [Introduction to the Dependency Mechanism](https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html) — scope, транзитивность, «nearest wins». **Обязательно**.
+- [Maven Wrapper](https://maven.apache.org/wrapper/).
+
 > 🎯 **Спросят на собесе:** Чем `mvn package` отличается от `mvn install`?
 > **Ответ:** `package` собирает артефакт в `target/`. `install` дополнительно кладёт его в локальный репозиторий `~/.m2`,
 > чтобы другие локальные проекты могли его подключить как зависимость.
@@ -180,6 +191,12 @@ mvn -version       # в выводе должна быть та же Java 21
 
 Правило: **источник правды — `pom.xml`**. IDEA при импорте Maven-проекта выставит language level из него.
 Если в IDEA что-то работает, а `mvn verify` в терминале — нет, прав терминал. Ревью я делаю через `mvn`.
+
+📚 **Читать:**
+- [IntelliJ IDEA: Getting started](https://www.jetbrains.com/help/idea/getting-started.html) → разделы *Create your first Java application* и *SDKs* (про Project SDK и language level).
+- [Maven support in IntelliJ IDEA](https://www.jetbrains.com/help/idea/maven-support.html).
+- [Debug code](https://www.jetbrains.com/help/idea/debugging-code.html) — разделы *Breakpoints* и *Evaluate expressions*.
+- Шпаргалка хоткеев: *Help → Keyboard Shortcuts PDF*. Распечатай, первые 2 недели держи рядом.
 
 ### Что освоить в IDEA
 
