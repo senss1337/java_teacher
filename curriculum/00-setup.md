@@ -127,36 +127,51 @@ Java — открытый проект **OpenJDK**. Из одного и тог�
 > **Ответ:** Новая версия выходит каждые 6 месяцев. LTS-версии (8, 11, 17, 21, 25) получают многолетние патчи безопасности,
 > промежуточные — только полгода. Прод живёт на LTS.
 
-### macOS / Linux — через SDKMAN (рекомендую)
+### Установка на macOS
 
-SDKMAN — это `pyenv` для Java: ставит несколько версий и переключает их.
+**Сначала узнай свой процессор:**  → *Об этом Mac*. Apple M1–M4 — это **Apple Silicon (arm64)**, Intel — x86_64.
+Для Apple Silicon нужна сборка JDK **aarch64/arm64**: она работает в разы быстрее, чем x86-версия через эмулятор Rosetta.
+SDKMAN и Homebrew выбирают правильную сборку сами. Если качаешь вручную с [adoptium.net](https://adoptium.net/),
+выбери *macOS → aarch64*.
+
+**Вариант 1 — SDKMAN (рекомендую).** Это `pyenv` для Java: ставит несколько версий и переключает их.
+Работает в zsh — стандартной оболочке macOS.
 
 ```bash
 curl -s "https://get.sdkman.io" | bash
-# закрой и заново открой терминал
+source ~/.zshrc                    # или просто закрой и заново открой Терминал
 sdk list java | grep -i tem        # список доступных Temurin, ищи строку с 21
 sdk install java 21.0.x-tem        # подставь точную версию из списка
 sdk install maven                  # сразу и Maven
 sdk current                        # что сейчас активно
 ```
 
-SDKMAN сам настроит переменные `JAVA_HOME` и `PATH`. Переключить версию: `sdk use java <версия>`
+SDKMAN сам настроит `JAVA_HOME` и `PATH` (дописывает строки в `~/.zshrc`). Переключить версию: `sdk use java <версия>`
 (только в текущем окне терминала) или `sdk default java <версия>` (насовсем).
 
-### Windows
+**Вариант 2 — Homebrew**, если он у тебя уже стоит и ты привык к нему:
 
-- `winget install EclipseAdoptium.Temurin.21.JDK` или MSI-установщик с [adoptium.net](https://adoptium.net/).
-  В установщике **отметь** *Set JAVA_HOME variable* и *Add to PATH*.
-- Maven: скачать zip-архив с [maven.apache.org/download.cgi](https://maven.apache.org/download.cgi), распаковать
-  (например, в `C:\tools\maven`) и добавить папку `bin` в `PATH`. Можно и без установки: в IntelliJ IDEA Maven встроен,
-  а в проектах мы всё равно пользуемся Maven Wrapper (`mvnw`, см. ниже), который скачивает Maven сам.
+```bash
+brew install --cask temurin@21     # JDK кладётся в /Library/Java/JavaVirtualMachines/
+brew install maven
+```
+
+С Homebrew `JAVA_HOME` сам не выставится: добавь в `~/.zshrc` строку
+`export JAVA_HOME=$(/usr/libexec/java_home -v 21)` и перезапусти терминал.
+
+**Не смешивай оба способа** — иначе получишь две Java и путаницу, какая из них где используется.
+Посмотреть все JDK, которые macOS видит в системной папке: `/usr/libexec/java_home -V`.
+
+Maven можно вообще не ставить отдельно: в IntelliJ IDEA он встроен, а в проектах мы пользуемся Maven Wrapper
+(`mvnw`, см. ниже), который скачивает нужную версию Maven сам. Но для упражнения «Java без IDE» и вехи 0.1
+удобнее, когда `mvn` есть в терминале.
 
 ### Проверка — обязательно все четыре команды
 
 ```bash
 java -version      # openjdk version "21.x" ... Temurin
 javac -version     # javac 21.x  ← если команды нет, ты поставил JRE, а не JDK (или PATH смотрит не туда)
-echo $JAVA_HOME    # на Windows: echo %JAVA_HOME%  — путь к папке JDK 21
+echo $JAVA_HOME    # путь к папке JDK 21
 mvn -version       # в выводе строка "Java version: 21..."
 ```
 
@@ -358,11 +373,11 @@ validate → compile → test → package → verify → install → deploy
 В PyCharm одна настройка — интерпретатор. В IDEA их несколько, и они должны совпадать:
 
 1. **Project SDK** — какой JDK использовать для компиляции и запуска.
-   *File → Project Structure → Project → SDK*. Если JDK ещё нет, выбери *Add SDK → Download JDK → Temurin 21*,
+   *File → Project Structure… (⌘;) → Project → SDK*. Если JDK ещё нет, выбери *Add SDK → Download JDK → Temurin 21*,
    IDEA скачает его сама.
 2. **Language level** — там же, строкой ниже. Какие возможности языка разрешены. Должно быть «21».
 3. **Module SDK** — *Project Structure → Modules*: SDK для отдельного модуля. Обычно стоит *Project SDK*, не трогай.
-4. **JDK для Maven** — *Settings → Build, Execution, Deployment → Build Tools → Maven → Runner → JRE*.
+4. **JDK для Maven** — *IntelliJ IDEA → Settings… (⌘,) → Build, Execution, Deployment → Build Tools → Maven → Runner → JRE*.
    Каким JDK IDEA запускает Maven. Поставь Project SDK.
 
 **Главное правило: источник правды — `pom.xml`.** Когда IDEA открывает Maven-проект, она читает `pom.xml`
@@ -385,26 +400,36 @@ validate → compile → test → package → verify → install → deploy
 
 - Клик по полю слева от номера строки ставит **breakpoint** (красную точку). Запусти через жука (*Debug*), а не *Run*.
 - Программа остановится на точке. Внизу видны все переменные.
-- *Step Over* (F8) — следующая строка; *Step Into* (F7) — зайти внутрь метода; *Step Out* (Shift+F8) — выйти.
-- *Evaluate Expression* (Alt+F8) — выполнить любое выражение в текущем контексте.
+- *Step Over* (F8) — следующая строка; *Step Into* (F7) — зайти внутрь метода; *Step Out* (⇧F8) — выйти.
+- *Evaluate Expression* (⌥F8) — выполнить любое выражение в текущем контексте.
+- На MacBook F-клавиши по умолчанию управляют яркостью и звуком, поэтому F8 нажимается как `fn`+F8. Удобнее один раз
+  включить *Системные настройки → Клавиатура → Сочетания клавиш → Функциональные клавиши → «Использовать F1, F2 и т. д.
+  как стандартные функциональные клавиши»*. Все кнопки отладчика есть и на панели Debug, мышкой.
 - Правый клик по точке → *Condition*: останавливаться, только если условие истинно (например, `i == 500`).
 
 ### Навигация и рефакторинги — суперсила Java
 
 Статическая типизация позволяет IDEA **точно** знать, где что используется. Поэтому рефакторинги в Java
-безопасны, в отличие от Python. Выучи первыми (macOS — Cmd вместо Ctrl):
+безопасны, в отличие от Python. Выучи первыми (раскладка IDEA для macOS: ⌘ — Command, ⌥ — Option, ⇧ — Shift,
+⌃ — Control, ↩ — Enter):
 
 | Действие | Клавиши | Зачем |
 |----------|---------|-------|
-| Найти что угодно | Shift, Shift | класс, файл, настройка |
-| Перейти к объявлению | Ctrl+B / Ctrl+клик | куда ведёт этот метод |
-| Перейти к реализации | Ctrl+Alt+B | какие классы реализуют интерфейс |
-| Где используется | Alt+F7 | кто вызывает метод |
-| Переименовать | Shift+F6 | везде сразу, безопасно |
-| Извлечь метод / переменную / константу | Ctrl+Alt+M / V / C | рефакторинг |
-| Сгенерировать код | Alt+Insert (Cmd+N) | конструктор, геттеры, `equals/hashCode` |
-| Отформатировать | Ctrl+Alt+L | стиль кода |
-| Показать подсказки/исправления | Alt+Enter | главная клавиша IDEA |
+| Найти что угодно | ⇧⇧ (дважды Shift) | класс, файл, настройка |
+| Перейти к объявлению | ⌘B или ⌘+клик | куда ведёт этот метод |
+| Перейти к реализации | ⌥⌘B | какие классы реализуют интерфейс |
+| Где используется | ⌥F7 | кто вызывает метод |
+| Структура файла | ⌘F12 | список методов класса |
+| Иерархия типов | ⌃H | предки и наследники класса |
+| Переименовать | ⇧F6 | везде сразу, безопасно |
+| Извлечь метод / переменную / константу / поле | ⌥⌘M / ⌥⌘V / ⌥⌘C / ⌥⌘F | рефакторинг |
+| Сгенерировать код | ⌘N | конструктор, геттеры, `equals/hashCode` |
+| Отформатировать | ⌥⌘L | стиль кода |
+| Показать подсказки/исправления | ⌥↩ | главная клавиша IDEA |
+| Настройки / структура проекта | ⌘, / ⌘; | |
+
+Если сочетание не срабатывает, проверь раскладку: *Settings → Keymap* должна быть **macOS**. Любое действие можно найти
+по названию через ⇧⌘A (*Find Action*): набери, например, «extract method», и IDEA покажет и действие, и его сочетание.
 
 **Генерацией кода** (конструкторы, `equals/hashCode`) пользоваться можно, но ты обязан понимать, что сгенерировано.
 Например, `equals` по изменяемым полям у объекта, который лежит в `HashSet`, получит 🔴 на ревью.
@@ -412,8 +437,8 @@ validate → compile → test → package → verify → install → deploy
 **Инспекции.** Жёлтая подсветка в коде — это IDEA указывает на проблему, и часто это то, за что я поставлю 🟡.
 Перед сдачей вехи: *Code → Inspect Code*.
 
-**Настрой один раз:** *Settings → Tools → Actions on Save* → включи *Reformat code* и *Optimize imports*.
-Плагины (*Settings → Plugins*): **SonarLint** (находит баги и плохие места), **.ignore**.
+**Настрой один раз:** *IntelliJ IDEA → Settings… (⌘,) → Tools → Actions on Save* → включи *Reformat code* и *Optimize imports*.
+Плагины (*Settings → Plugins*; на Mac настройки открываются через ⌘,): **SonarLint** (находит баги и плохие места), **.ignore**.
 
 > ⚠️ **Важно:** на время обучения **выключи AI-автодополнение** (Full Line Code Completion, AI Assistant, Copilot).
 > *Settings → Editor → General → Inline Completion*. Иначе ты будешь учить не Java, а клавишу Tab.
@@ -432,7 +457,7 @@ validate → compile → test → package → verify → install → deploy
 |------------|-------|-------|
 | Git + корневой `.gitignore` (уже есть в репо) | сразу | `target/`, `.idea/` не коммитим |
 | Apache Tomcat 11 | проект 3 | сервер для сервлетов (не 10.1 — см. «Версии стека») |
-| Docker Desktop / Docker Engine | удобно с проекта 3 (Postgres), обязательно с проекта 6 | базы и сервисы без установки в систему |
+| Docker Desktop для Mac (или OrbStack) | удобно с проекта 3 (Postgres), обязательно с проекта 6 | базы и сервисы без установки в систему |
 | DBeaver (или DB-клиент в IDEA Ultimate) | проект 3 | смотреть таблицы и планы запросов |
 | Postman / HTTPie / HTTP Client в IDEA | проект 3 | дёргать API руками |
 
@@ -468,7 +493,7 @@ validate → compile → test → package → verify → install → deploy
 
 **Как проверить актуальную версию самому:** на [central.sonatype.com](https://central.sonatype.com/) найди артефакт
 (например, `spring-boot-dependencies`) и открой вкладку с версиями. Или в IDEA: в `pom.xml` поставь курсор на версию,
-Alt+Enter покажет доступные.
+⌥↩ покажет доступные.
 
 ### Что в старых туториалах выглядит иначе
 

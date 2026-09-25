@@ -41,6 +41,22 @@ docker stop pg && docker rm pg         # остановить и удалить 
 docker volume rm pgdata                # удалить данные
 ```
 
+### Docker на Mac
+
+Docker работает только на Linux, поэтому на Mac он запускается внутри лёгкой виртуальной машины. Удобнее всего
+**Docker Desktop** ([docker.com](https://www.docker.com/products/docker-desktop/), выбери версию для Apple Silicon или Intel).
+Лёгкие альтернативы — **OrbStack** или **Colima** (`brew install colima docker`): команды `docker` и `docker compose` те же.
+
+Что важно знать на Mac:
+- **Память.** Виртуальной машине выдаётся ограниченная память (*Docker Desktop → Settings → Resources*). Для Postgres +
+  Redis + MinIO (проект 6) или Kafka (проект 7) поставь не меньше 4–6 ГБ.
+- **Apple Silicon (arm64).** Официальные образы (`postgres`, `redis`, `minio/minio`, `apache/kafka`, `eclipse-temurin`)
+  собраны и под arm64, всё работает нативно. Если какой-то образ есть только под amd64, Docker скажет
+  `no matching manifest for linux/arm64`. Тогда добавь в сервис compose `platform: linux/amd64`: заработает через эмуляцию,
+  но медленнее.
+- **Testcontainers** находят Docker Desktop автоматически. С Colima иногда нужно указать `DOCKER_HOST`
+  (см. [документацию Testcontainers](https://java.testcontainers.org/supported_docker_environment/)).
+
 ### Docker Compose
 
 Когда контейнеров несколько (Postgres + Redis + MinIO), команды `docker run` с кучей флагов неудобны.

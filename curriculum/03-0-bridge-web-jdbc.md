@@ -331,7 +331,11 @@ HTTP ──> Controller (сервлет)  разобрать запрос, пр�
 ### Веха B3.1 — Сервлеты и Tomcat
 
 **Что нужно сделать**
-1. Скачать Tomcat 11 (zip/tar.gz с [tomcat.apache.org](https://tomcat.apache.org/download-11.cgi)), запустить локально (`bin/startup.sh`, на Windows `bin\startup.bat`), открыть `http://localhost:8080`.
+1. Скачать Tomcat 11 (архив **tar.gz** с [tomcat.apache.org](https://tomcat.apache.org/download-11.cgi), раздел *Core*), распаковать,
+   например, в `~/tools/tomcat`, запустить `bin/startup.sh`, открыть `http://localhost:8080`. Остановить — `bin/shutdown.sh`,
+   логи — `logs/catalina.out`. Если macOS пишет `permission denied`, выполни `chmod +x bin/*.sh`: такое бывает,
+   если скачать zip вместо tar.gz. Если macOS блокирует запуск скачанных файлов, помогает
+   `xattr -dr com.apple.quarantine ~/tools/tomcat`.
 2. Maven-проект с `packaging=war` и `jakarta.servlet-api` 6.1 (`provided`). Версии — по таблице [«Версии стека»](00-setup.md#7-версии-стека-проверено-по-maven-central-24092026).
 3. `HelloServlet` из части 1 + сервлет `/time`, отдающий текущее время **в JSON** через Jackson
    (`{"utc": "...", "zone": "..."}`, зона — из параметра `?zone=Europe/Moscow`, по умолчанию UTC; неверная зона → 400 с JSON-ошибкой).

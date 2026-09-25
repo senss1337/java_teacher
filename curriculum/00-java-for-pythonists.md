@@ -551,7 +551,7 @@ list.removeIf(String::isEmpty);                    // правильно
 📚 **Читать:**
 - CJ1, гл. 9 «Collections» — **целиком**: интерфейсы, реализации, представления (views), алгоритмы.
 - [Oracle Tutorial: Collections](https://docs.oracle.com/javase/tutorial/collections/) — раздел Interfaces и Implementations.
-- Исходник `java.util.HashMap` (Ctrl/Cmd+B в IDEA): прочитай комментарий Implementation notes в начале класса и методы `hash()`, `putVal()`.
+- Исходник `java.util.HashMap` (⌘B на имени класса в IDEA): прочитай комментарий Implementation notes в начале класса и методы `hash()`, `putVal()`.
 - EJ 54 (возвращайте пустые коллекции, а не `null`), EJ 64 (ссылайтесь на объекты через интерфейсы).
 
 ### Упражнения
@@ -814,8 +814,11 @@ String result = sb.toString();
 через формат), `strip()`, `isBlank()`, `repeat(n)`, `lines()`.
 
 **Файлы.** Современный API — `java.nio.file`: класс `Path` (как `pathlib.Path`) и утилиты `Files`:
-`Files.readAllLines(path)`, `Files.writeString(path, text)`, `Files.lines(path)`. **Всегда указывай кодировку**
-`StandardCharsets.UTF_8`: на Windows по умолчанию может оказаться другая, и кириллица превратится в кракозябры.
+`Files.readAllLines(path)`, `Files.writeString(path, text)`, `Files.lines(path)`. Эти методы `Files` всегда работают
+в UTF-8. А вот там, где байты превращаются в символы (`new InputStreamReader(in)`, `new Scanner(in)`, `new String(bytes)`),
+**указывай кодировку явно**: `StandardCharsets.UTF_8`. С Java 18 кодировка по умолчанию и так UTF-8 на всех системах
+(JEP 400), но явное указание делает код однозначным и не зависящим от настроек JVM. Старые статьи с кракозябрами
+в кириллице — как раз из времён, когда кодировка по умолчанию зависела от ОС.
 
 **Время** — пакет `java.time`, аналог `datetime`, но строже:
 - `Instant` — точный момент на временной шкале (UTC). Для «когда произошло событие».
