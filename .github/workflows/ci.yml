@@ -1,0 +1,56 @@
+name: CI
+
+# На каждый push и pull request собирает и тестирует все Maven-проекты из projects/*
+# (mvn verify: компиляция, юнит- и интеграционные тесты). На раннере есть Docker,
+# поэтому тесты на Testcontainers здесь работают.
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  discover:
+    name: Найти проекты
+    runs-on: ubuntu-latest
+    outputs:
+      projects: ${{ steps.find.outputs.projects }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: find
+        run: |
+          projects=$(find projects -mindepth 2 -maxdepth 2 -name pom.xml -printf '%h\n' 2>/dev/null | sort \
+            | python3 -c 'import sys, json; print(json.dumps([l.strip() for l in sys.stdin if l.strip()]))')
+          echo "Найдено: $projects"
+          echo "projects=$projects" >> "$GITHUB_OUTPUT"
+
+  verify:
+    name: verify ${{ matrix.project }}
+    needs: discover
+    if: needs.discover.outputs.projects != '[]'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        project: ${{ fromJson(needs.discover.outputs.projects) }}
+    defaults:
+      run:
+        working-directory: ${{ matrix.project }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+      - name: mvn verify
+        run: |
+          if [ -x ./mvnw ]; then ./mvnw -B verify; else mvn -B verify; fi
+      - name: Отчёты тестов (при падении)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports-${{ strategy.job-index }}
+          path: |
+            ${{ matrix.project }}/target/surefire-reports/
+            ${{ matrix.project }}/target/failsafe-reports/
+          if-no-files-found: ignore

@@ -27,6 +27,12 @@
 
 Незнакомое слово → [`GLOSSARY.md`](curriculum/GLOSSARY.md).
 
+## CI
+
+На каждый push GitHub Actions ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) собирает и тестирует
+все проекты из `projects/*` (`mvn verify`). Результат — вкладка **Actions** на GitHub и значок у коммита.
+Красный CI = веха не сдана.
+
 ## Рабочий цикл
 
 1. Открыть модуль проекта, изучить раздел «Что изучить до старта». Можно попросить ментора:
